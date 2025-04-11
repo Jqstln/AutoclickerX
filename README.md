@@ -1,4 +1,5 @@
 # AutoClickerX 
+[![GitHub stars](https://img.Shields.Io/github/stars/Jqstln/AutoClickerX?Style=social)](https://github.Com/Jqstln/AutoClickerX/stargazers)
 
 This is a utility tool for click automation with hotkey and adjustable pace functions. Currently in early beta, so even if it works well, several bugs could still be there here and there. The utility should run on Windows, MacOS, and Linux platforms. 
 
@@ -32,12 +33,6 @@ This is a utility tool for click automation with hotkey and adjustable pace func
 ### Disclaimer
 
 This software is in beta. I have run the app through a series of tests to validate its basic function, but it may still contain bugs. You are to use at your own risk. I cannot be held liable for any damage or trouble caused by running this software. Kindly report any problem that you encounter. 
-
----
-
-### Repository stats 
-
-[![GitHub stars](https://img.Shields.Io/github/stars/Jqstln/AutoClickerX?Style=social)](https://github.Com/Jqstln/AutoClickerX/stargazers)
 
 ---
 

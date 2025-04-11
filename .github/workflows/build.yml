@@ -1,4 +1,4 @@
-name: Build AutoclickerX for Windows, Linux, macOS
+name: Build application
 
 on:
   push:

@@ -66,7 +66,7 @@ jobs:
       - name: Extract version from version.txt
         id: get_version
         run: |
-          version=$(python -c "import configparser; cf = configparser.ConfigParser(); cf.read('version.txt'); print(cf.get('StringFileInfo', 'ProductVersion'))")
+          version=$(python -c "import re; f = open('version.txt', 'r'); content = f.read(); f.close(); match = re.search(r'ProductVersion\s*=\s*([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)', content); print(match.group(1) if match else 'Not found')")
           echo "VERSION=$version" >> $GITHUB_ENV
 
       - name: Create GitHub Release with Assets

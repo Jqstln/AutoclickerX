@@ -88,42 +88,25 @@ jobs:
 
   release:
     needs: [build-windows, build-linux, build-macos]
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-
-      - name: Create GitHub release
-        id: create_release
-        uses: actions/create-release@v1.1.4
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4.1.7
+        with:
+          path: artifacts
+  
+      - name: Create GitHub Release with Assets
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+          name: Release ${{ github.sha }}
           body: |
             This release includes the latest build artifacts.
           draft: true
           prerelease: true
-
-      - name: Upload Windows artifact to release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/AutoclickerX.exe
-          asset_name: AutoclickerX-Windows.exe
-          asset_content_type: application/octet-stream
-
-      - name: Upload Linux artifact to release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/AutoclickerX
-          asset_name: AutoclickerX-Linux
-          asset_content_type: application/octet-stream
-
-      - name: Upload macOS artifact to release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/AutoclickerX
-          asset_name: AutoclickerX-macOS
-          asset_content_type: application/octet-stream
+          files: |
+            artifacts/AutoclickerX-Windows/AutoclickerX.exe
+            artifacts/AutoclickerX-Linux/AutoclickerX
+            artifacts/AutoclickerX-macOS/AutoclickerX
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

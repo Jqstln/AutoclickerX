@@ -14,7 +14,6 @@ python -m PyInstaller ^
   --noconsole ^
   --clean ^
   --onefile ^
-  --upx-dir=tools\upx ^
   main.py
 
 echo Build complete! Check the dist folder for AutoclickerX.exe

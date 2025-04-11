@@ -2,15 +2,30 @@ name: Build application
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: AutoclickerX-Windows
+            output_path: dist/AutoclickerX.exe
+            output_name: AutoclickerX.exe
+          - os: ubuntu-latest
+            artifact_name: AutoclickerX-Linux
+            output_path: dist/AutoclickerX
+            output_name: AutoclickerX
+          - os: macos-latest
+            artifact_name: AutoclickerX-macOS
+            output_path: dist/AutoclickerX
+            output_name: AutoclickerX
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -22,79 +37,32 @@ jobs:
 
       - name: Install dependencies
         run: |
+          if [[ "${{ runner.os }}" == "Linux" ]]; then sudo apt update; fi
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+        shell: bash
 
-      - name: Build Windows
+      - name: Build executable
         run: |
-          pyinstaller --onefile --name AutoclickerX.exe --icon=assets/logo_mouse.ico --version-file=version.txt --noconsole --clean --onefile main.py
+          pyinstaller --onefile --name ${{ matrix.output_name }} --icon=assets/logo_mouse.ico --version-file=version.txt --noconsole --clean main.py
+        shell: bash
 
-      - name: Upload Windows Build Artifact
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: AutoclickerX-Windows
-          path: dist/AutoclickerX.exe
-
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-
-      - name: Set up Python
-        uses: actions/setup-python@v5.5.0
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          pip install -r requirements.txt
-
-      - name: Build Linux
-        run: |
-          pyinstaller --onefile --name AutoclickerX --icon=assets/logo_mouse.ico --version-file=version.txt --noconsole --clean --onefile main.py
-
-      - name: Upload Linux Build Artifact
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: AutoclickerX-Linux
-          path: dist/AutoclickerX
-
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-
-      - name: Set up Python
-        uses: actions/setup-python@v5.5.0
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Build macOS
-        run: |
-          pyinstaller --onefile --name AutoclickerX --icon=assets/logo_mouse.ico --version-file=version.txt --noconsole --clean --onefile main.py
-
-      - name: Upload macOS Build Artifact
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: AutoclickerX-macOS
-          path: dist/AutoclickerX
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.output_path }}
 
   release:
-    needs: [build-windows, build-linux, build-macos]
+    name: Create Release
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download all build artifacts
         uses: actions/download-artifact@v4.1.7
         with:
           path: artifacts
-  
+
       - name: Create GitHub Release with Assets
         uses: softprops/action-gh-release@v2
         with:

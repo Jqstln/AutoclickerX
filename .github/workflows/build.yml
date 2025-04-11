@@ -19,12 +19,12 @@ jobs:
             output_name: AutoclickerX.exe
           - os: ubuntu-latest
             artifact_name: AutoclickerX-Linux
-            output_path: dist/AutoclickerX
-            output_name: AutoclickerX
+            output_path: dist/autoclickerx-linux
+            output_name: autoclickerx-linux
           - os: macos-latest
-            artifact_name: AutoclickerX-macOS
-            output_path: dist/AutoclickerX
-            output_name: AutoclickerX
+            artifact_name: AutoclickerX-Mac
+            output_path: dist/autoclickerx-mac
+            output_name: autoclickerx-mac
 
     steps:
       - name: Checkout code
@@ -74,7 +74,7 @@ jobs:
           prerelease: true
           files: |
             artifacts/AutoclickerX-Windows/AutoclickerX.exe
-            artifacts/AutoclickerX-Linux/AutoclickerX
-            artifacts/AutoclickerX-macOS/AutoclickerX
+            artifacts/AutoclickerX-Linux/autoclickerx-linux
+            artifacts/AutoclickerX-Mac/autoclickerx-mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

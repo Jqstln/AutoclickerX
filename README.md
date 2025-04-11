@@ -1,5 +1,5 @@
 # AutoClickerX 
-[![GitHub stars](https://img.Shields.Io/github/stars/Jqstln/AutoClickerX?Style=social)](https://github.Com/Jqstln/AutoClickerX/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/M1dnght-dev/AutoClickerX?Style=social)](https://github.com/M1dnght-dev/AutoClickerX/stargazers)
 
 This is a utility tool for click automation with hotkey and adjustable pace functions. Currently in early beta, so even if it works well, several bugs could still be there here and there. The utility should run on Windows, MacOS, and Linux platforms. 
 
@@ -16,8 +16,8 @@ This is a utility tool for click automation with hotkey and adjustable pace func
 
 ### Installation
 
-1. **Windows**: Download the `.zip` file from [Releases](https://github.com/Jqstln/AutoClickerX/releases), extract it and run the `.exe`.
-2. **MacOS**: Download the `.dmg` file from [Releases](https://github.com/Jqstln/AutoClickerX/releases), drag to Applications folder and run. 
+1. **Windows**: Download the `.zip` file from [Releases](https://github.com/M1dnght-dev/AutoClickerX/releases), extract it and run the `.exe`.
+2. **MacOS**: Download the `.dmg` file from [Releases](https://github.com/M1dnght-dev/AutoClickerX/releases), drag to Applications folder and run. 
 3. **Linux**: Download the `.tar.gz` file, extract it and run it from terminal. 
 
 ---

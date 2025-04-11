@@ -96,7 +96,7 @@ jobs:
           path: artifacts
   
       - name: Create GitHub Release with Assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.sha }}
           name: Release ${{ github.sha }}

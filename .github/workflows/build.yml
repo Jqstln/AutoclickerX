@@ -94,12 +94,18 @@ jobs:
         uses: actions/download-artifact@v4.1.7
         with:
           path: artifacts
-  
+
+      - name: Extract version from version.txt
+        id: get_version
+        run: |
+          version=$(python -c "import configparser; cf = configparser.ConfigParser(); cf.read('version.txt'); print(cf.get('StringFileInfo', 'ProductVersion'))")
+          echo "VERSION=$version" >> $GITHUB_ENV
+
       - name: Create GitHub Release with Assets
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.sha }}
-          name: Release ${{ github.sha }}
+          tag_name: ${{ env.VERSION }}
+          name: Release ${{ env.VERSION }}
           body: |
             This release includes the latest build artifacts.
           draft: true

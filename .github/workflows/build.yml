@@ -1,0 +1,89 @@
+name: Build AutoclickerX for Windows, Linux, macOS
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.5.0
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller upx
+
+      - name: Build Windows
+        run: |
+          pyinstaller --onefile --name AutoclickerX.exe --icon=assets/logo_mouse.ico --version-file=version.txt --noconsole --clean --onefile --upx-dir=tools\upx main.py
+
+      - name: Upload Windows Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: AutoclickerX-Windows
+          path: dist/AutoclickerX.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.5.0
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y upx
+          pip install pyinstaller
+
+      - name: Build Linux
+        run: |
+          pyinstaller --onefile --name AutoclickerX --icon=assets/logo_mouse.ico --version-file=version.txt --noconsole --clean --onefile --upx-dir=tools\upx main.py
+
+      - name: Upload Linux Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: AutoclickerX-Linux
+          path: dist/AutoclickerX
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.5.0
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          brew install upx
+          pip install pyinstaller
+
+      - name: Build macOS
+        run: |
+          pyinstaller --onefile --name AutoclickerX --icon=assets/logo_mouse.ico --version-file=version.txt --noconsole --clean --onefile --upx-dir=tools\upx main.py
+
+      - name: Upload macOS Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: AutoclickerX-macOS
+          path: dist/AutoclickerX
